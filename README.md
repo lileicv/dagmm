@@ -1,2 +1,5 @@
-# dagmm
-Tensorflow Implement
+# DAGMM
+
+Tensorflow implement for pather *DEEP AUTOENCODING GAUSSIAN MIXTURE MODEL FOR UNSUPERVISED ANOMALY DETECTION*
+
+

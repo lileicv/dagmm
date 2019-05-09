@@ -24,7 +24,7 @@ plt.close()
 
 # Build model
 model = DAGMM(2)
-model.fit(data, 128, 1000, 100)
+model.fit(data, 128, 2000, 100)
 
 pred = model.predict(data)
 plt.plot(pred, 'o-')

@@ -2,6 +2,7 @@
 '''
 
 import tensorflow as tf
+from dagmm_eager import DAGMM
 import numpy as np
 from sklearn.datasets import make_blobs
 from sklearn import preprocessing
@@ -10,11 +11,11 @@ mlp.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-from dagmm import DAGMM
 
 # Build toy dataset
 data, _ = make_blobs(n_samples=2000, n_features=2, centers=5, random_state=123)
 data = preprocessing.scale(data)
+data = data.astype('float32')
 data[300] = [0, 2]
 data[500] = [-2, -2]
 
@@ -24,7 +25,7 @@ plt.close()
 
 # Build model
 model = DAGMM(2)
-model.fit(data, 128, 2000, 100)
+model.fit(data, 128, 1000, 100)
 
 pred = model.predict(data)
 plt.plot(pred, 'o-')
@@ -35,6 +36,7 @@ plt.close()
 # Draw the decision boundary
 xx,yy = np.meshgrid(np.arange(-2,2,0.01), np.arange(-2,2,0.01))
 data = np.c_[xx.ravel(), yy.ravel()]
+data = data.astype('float32')
 pred = model.predict(data).reshape(xx.shape)
 
 mean = np.mean(pred)

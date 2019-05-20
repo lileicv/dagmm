@@ -99,13 +99,13 @@ class DAGMM(tf.keras.Model):
                 tf.reduce_sum(tf.expand_dims(z_mu,axis=-1)*tf.expand_dims(sigma_inv,axis=0), axis=-2) * z_mu, \
                 axis=-1) # N,K
         # 分母项
-        sigma_det = tf.matrix_determinant(sigma_inv)
-        item3 = tf.expand_dims(tf.log(tf.sqrt(np.pi*2*sigma_det)), axis=0) # 1,K
-        energy = - tf.reduce_logsumexp(item1 + item2 - item3, axis=1)      # N
+        sigma_det = tf.matrix_determinant(2*np.pi*sigma)
+        item3 = tf.expand_dims(tf.log(tf.sqrt(sigma_det)), axis=0) # 1,K
+        energy = - tf.reduce_sum(item1 + item2 - item3, axis=1)      # N
         return energy
 
     def loss(self, x1, x2, sigma, energy):
-        lambda1 = 0.1
+        lambda1 = 0.01
         lambda2 = 0.0001
         loss3 = lambda2 * tf.reduce_sum(tf.divide(1, tf.matrix_diag_part(sigma)))
         loss2 = lambda1 * tf.reduce_mean(energy)
